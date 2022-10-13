@@ -6,18 +6,13 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.rehan.dagger2demo.R
-import com.rehan.dagger2demo.application.FakerApplication
 import com.rehan.dagger2demo.viewmodels.MainViewModel
-import com.rehan.dagger2demo.viewmodels.MainViewModelFactory
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     lateinit var mainViewModel: MainViewModel
-
-    // Whenever we want to initialize any fields through dagger, we have to use @Inject annotation and then we have to initialize with component
-    @Inject
-    lateinit var mainViewModelFactory: MainViewModelFactory
 
     // Accessing TextView ID from XML
     private val products: TextView
@@ -27,14 +22,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Wherever we use @Inject annotation for fields, we have to tell Dagger to initialize them and for that we have to use component
-        // Accessing component
-        (application as FakerApplication).applicationComponent.inject(this)
-
-        val map = (application as FakerApplication).applicationComponent.getMap()
-
         // This is how we create ViewModel object
-        mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         // We have LiveData inside MainViewModel class and we will observe that LiveData
         mainViewModel.productsLiveData.observe(this, Observer {

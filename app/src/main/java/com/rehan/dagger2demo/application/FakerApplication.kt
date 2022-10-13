@@ -1,16 +1,12 @@
 package com.rehan.dagger2demo.application
 
 import android.app.Application
-import com.rehan.dagger2demo.di.ApplicationComponent
-import com.rehan.dagger2demo.di.DaggerApplicationComponent
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class FakerApplication : Application() {
-
-    // Initializing the component interface
-    lateinit var applicationComponent: ApplicationComponent
 
     override fun onCreate() {
         super.onCreate()
-        applicationComponent = DaggerApplicationComponent.factory().create(this)
     }
 }
